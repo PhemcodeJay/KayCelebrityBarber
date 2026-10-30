@@ -1,0 +1,909 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kay Celebrity Barber · Book & Pay</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #f7f3ee;
+            font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 1.5rem;
+        }
+
+        .booking-card {
+            max-width: 1150px;
+            width: 100%;
+            background: white;
+            border-radius: 2.5rem;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08), 0 8px 20px rgba(0, 0, 0, 0.06);
+            overflow: hidden;
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+        }
+
+        /* left panel – brand & info */
+        .brand-panel {
+            background: #1e1e1e;
+            color: #f0e9e0;
+            padding: 3rem 2.5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+        }
+
+        .brand-panel::after {
+            content: "✂️";
+            font-size: 12rem;
+            position: absolute;
+            bottom: -20px;
+            right: -10px;
+            opacity: 0.05;
+            color: white;
+            pointer-events: none;
+            transform: rotate(15deg);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 3rem;
+        }
+
+        .logo i {
+            font-size: 2.4rem;
+            color: #d4af37;
+        }
+
+        .logo h1 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            letter-spacing: -0.5px;
+            line-height: 1.2;
+        }
+
+        .logo span {
+            display: block;
+            font-size: 0.9rem;
+            font-weight: 400;
+            color: #c0b7a8;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-top: 4px;
+        }
+
+        .tagline {
+            font-size: 1.2rem;
+            font-weight: 300;
+            line-height: 1.6;
+            margin-bottom: 3rem;
+            color: #ddd6cc;
+            max-width: 90%;
+        }
+
+        .contact-info {
+            margin-top: auto;
+        }
+
+        .contact-info .phone-block {
+            background: #2c2c2c;
+            border-radius: 60px;
+            padding: 0.9rem 1.8rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            border: 1px solid #3e3e3e;
+            transition: background 0.2s;
+            margin-bottom: 1.5rem;
+        }
+
+        .contact-info .phone-block i {
+            font-size: 1.3rem;
+            color: #d4af37;
+        }
+
+        .contact-info .phone-block a {
+            color: white;
+            text-decoration: none;
+            font-size: 1.3rem;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+
+        .contact-info .phone-block a:hover {
+            color: #d4af37;
+        }
+
+        .contact-info .hours {
+            display: flex;
+            gap: 1.5rem;
+            font-size: 0.9rem;
+            color: #b0a79b;
+            border-top: 1px solid #2e2e2e;
+            padding-top: 1.5rem;
+        }
+
+        .hours i {
+            margin-right: 6px;
+            color: #d4af37;
+        }
+
+        .mpesa-badge {
+            background: #2c2c2c;
+            border-radius: 16px;
+            padding: 0.8rem 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-top: 1.2rem;
+            border: 1px solid #3e3e3e;
+        }
+
+        .mpesa-badge i {
+            color: #4caf50;
+            font-size: 1.5rem;
+        }
+
+        .mpesa-badge .mpesa-text {
+            font-size: 0.85rem;
+            color: #c0b7a8;
+            line-height: 1.4;
+        }
+
+        .mpesa-badge strong {
+            color: #d4af37;
+            font-weight: 600;
+        }
+
+        /* right panel – form */
+        .form-panel {
+            background: white;
+            padding: 2.8rem 2.5rem;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .form-panel::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .form-panel::-webkit-scrollbar-track {
+            background: #f1ede8;
+            border-radius: 10px;
+        }
+
+        .form-panel::-webkit-scrollbar-thumb {
+            background: #d4af37;
+            border-radius: 10px;
+        }
+
+        .form-panel h2 {
+            font-size: 2rem;
+            font-weight: 600;
+            color: #1e1e1e;
+            letter-spacing: -0.5px;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-panel .subhead {
+            color: #77736e;
+            margin-bottom: 1.8rem;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-left: 4px solid #d4af37;
+            padding-left: 14px;
+            background: #faf8f5;
+            padding: 0.8rem 1rem;
+            border-radius: 0 12px 12px 0;
+        }
+
+        .booking-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+        }
+
+        .input-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .form-group label {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #3a3a3a;
+            letter-spacing: 0.3px;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .form-group label i {
+            color: #d4af37;
+            font-size: 0.9rem;
+        }
+
+        .form-group input,
+        .form-group select {
+            padding: 0.9rem 1rem;
+            border: 1.5px solid #e3ddd6;
+            border-radius: 16px;
+            font-size: 0.95rem;
+            background: #fefcf9;
+            transition: all 0.2s;
+            font-family: inherit;
+            color: #1e1e1e;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #d4af37;
+            box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.15);
+            background: white;
+        }
+
+        .form-group input::placeholder {
+            color: #b6aea3;
+        }
+
+        .form-group select {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23b6aea3' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+            background-size: 1.2rem;
+        }
+
+        /* payment toggle switch */
+        .payment-section {
+            background: #faf8f5;
+            border-radius: 24px;
+            padding: 1.2rem 1.3rem;
+            border: 1.5px dashed #e3ddd6;
+            margin-top: 0.2rem;
+        }
+
+        .payment-toggle {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .payment-toggle .toggle-label {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 600;
+            color: #1e1e1e;
+            font-size: 0.95rem;
+        }
+
+        .payment-toggle .toggle-label i {
+            color: #4caf50;
+            font-size: 1.2rem;
+        }
+
+        .payment-toggle .toggle-label small {
+            font-weight: 400;
+            color: #99948c;
+            font-size: 0.75rem;
+            display: block;
+            margin-top: 2px;
+        }
+
+        /* switch */
+        .switch {
+            position: relative;
+            width: 52px;
+            height: 28px;
+            flex-shrink: 0;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .3s;
+            border-radius: 28px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 22px;
+            width: 22px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .3s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: #4caf50;
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(24px);
+        }
+
+        /* mpesa details (hidden by default) */
+        .mpesa-details {
+            margin-top: 1.2rem;
+            display: none;
+            flex-direction: column;
+            gap: 1rem;
+            animation: fadeSlide 0.3s ease;
+        }
+
+        .mpesa-details.show {
+            display: flex;
+        }
+
+        @keyframes fadeSlide {
+            from {
+                opacity: 0;
+                transform: translateY(-8px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .mpesa-instructions {
+            background: white;
+            border-radius: 16px;
+            padding: 0.9rem 1.1rem;
+            font-size: 0.85rem;
+            color: #4a4a4a;
+            border: 1px solid #e3ddd6;
+            line-height: 1.6;
+        }
+
+        .mpesa-instructions .send-money-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 6px;
+            flex-wrap: wrap;
+        }
+
+        .mpesa-instructions .phone-number-pill {
+            background: #1e1e1e;
+            color: #d4af37;
+            font-weight: 700;
+            padding: 0.3rem 1rem;
+            border-radius: 30px;
+            font-size: 1.05rem;
+            letter-spacing: 0.5px;
+            font-family: monospace;
+        }
+
+        .mpesa-instructions .name-pill {
+            background: #d4af37;
+            color: #1e1e1e;
+            font-weight: 700;
+            padding: 0.3rem 1rem;
+            border-radius: 30px;
+            font-size: 0.95rem;
+            letter-spacing: 0.5px;
+        }
+
+        .upload-label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: white;
+            border: 1.5px solid #e3ddd6;
+            border-radius: 16px;
+            padding: 0.8rem 1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.9rem;
+            color: #5a5a5a;
+        }
+
+        .upload-label:hover {
+            border-color: #d4af37;
+            background: #fefcf9;
+        }
+
+        .upload-label i {
+            color: #d4af37;
+            font-size: 1.2rem;
+        }
+
+        .upload-label span {
+            flex: 1;
+        }
+
+        .upload-label .file-name {
+            color: #4caf50;
+            font-weight: 500;
+            font-size: 0.8rem;
+            max-width: 150px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        #proofUpload {
+            display: none;
+        }
+
+        .btn-book {
+            background: #1e1e1e;
+            color: white;
+            border: none;
+            padding: 1.2rem;
+            border-radius: 40px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            cursor: pointer;
+            transition: all 0.25s;
+            margin-top: 0.4rem;
+            box-shadow: 0 8px 18px rgba(0, 0, 0, 0.12);
+            border: 1px solid #2e2e2e;
+        }
+
+        .btn-book i {
+            color: #d4af37;
+            font-size: 1.2rem;
+        }
+
+        .btn-book:hover {
+            background: #2c2c2c;
+            transform: scale(1.02);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.18);
+        }
+
+        .btn-book:active {
+            transform: scale(0.99);
+        }
+
+        .booking-footer {
+            margin-top: 1.6rem;
+            text-align: center;
+            color: #a09a92;
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .booking-footer i {
+            color: #d4af37;
+        }
+
+        .booking-footer a {
+            color: #1e1e1e;
+            text-decoration: none;
+            font-weight: 600;
+            border-bottom: 1px dashed #d4af37;
+        }
+
+        .booking-footer a:hover {
+            color: #d4af37;
+        }
+
+        /* toast message */
+        .toast-message {
+            background: #1e1e1e;
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 60px;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            border-left: 6px solid #d4af37;
+            margin-top: 1.5rem;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.3s, transform 0.3s;
+            pointer-events: none;
+            width: 100%;
+        }
+
+        .toast-message.show {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+
+        .toast-message i {
+            color: #d4af37;
+            font-size: 1.5rem;
+        }
+
+        .toast-message span {
+            flex: 1;
+        }
+
+        /* responsive */
+        @media (max-width: 900px) {
+            .booking-card {
+                grid-template-columns: 1fr;
+                border-radius: 2rem;
+            }
+
+            .brand-panel {
+                padding: 2rem 1.8rem;
+            }
+
+            .brand-panel::after {
+                font-size: 8rem;
+                bottom: -10px;
+                right: 0;
+            }
+
+            .tagline {
+                margin-bottom: 2rem;
+                font-size: 1rem;
+            }
+
+            .logo h1 {
+                font-size: 1.6rem;
+            }
+
+            .form-panel {
+                padding: 2rem 1.8rem;
+                max-height: none;
+                overflow-y: visible;
+            }
+
+            .input-row {
+                grid-template-columns: 1fr;
+                gap: 1.3rem;
+            }
+
+            .contact-info .phone-block a {
+                font-size: 1.1rem;
+            }
+
+            .contact-info .hours {
+                flex-direction: column;
+                gap: 8px;
+            }
+        }
+
+        @media (max-width: 450px) {
+            .booking-card {
+                border-radius: 1.5rem;
+            }
+
+            .brand-panel,
+            .form-panel {
+                padding: 1.8rem 1.3rem;
+            }
+
+            .phone-block {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .form-panel h2 {
+                font-size: 1.7rem;
+            }
+
+            .payment-section {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="booking-card">
+        <!-- left: brand & phone -->
+        <div class="brand-panel">
+            <div>
+                <div class="logo">
+                    <i class="fas fa-scissors"></i>
+                    <div>
+                        <h1>KAY<br>CELEBRITY</h1>
+                        <span>BARBER</span>
+                    </div>
+                </div>
+                <div class="tagline">
+                    <i class="fas fa-quote-left" style="color: #d4af37; opacity: 0.6; margin-right: 6px;"></i>
+                    Sharp cuts, celebrity fades, and a vibe you can trust.
+                </div>
+
+                <!-- M-Pesa info on brand side (updated to show Send Money number) -->
+                <div class="mpesa-badge">
+                    <i class="fas fa-mobile-alt"></i>
+                    <div class="mpesa-text">
+                        Pay via M-Pesa Send Money<br>
+                        <strong>+254 742 690064</strong> (Kay Celebrity)
+                    </div>
+                </div>
+            </div>
+
+            <div class="contact-info">
+                <div class="phone-block">
+                    <i class="fas fa-phone-alt"></i>
+                    <a href="tel:+254742690064">+254 742 690064</a>
+                </div>
+                <div class="hours">
+                    <div><i class="far fa-clock"></i> Mon–Sat: 8am – 8pm</div>
+                    <div><i class="far fa-calendar-alt"></i> Sun: 10am – 6pm</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- right: booking form -->
+        <div class="form-panel">
+            <h2>Book your chair</h2>
+            <div class="subhead">
+                <i class="fas fa-crown" style="color: #d4af37;"></i>
+                Reserve your spot — we’ll text you a confirmation.
+            </div>
+
+            <form class="booking-form" id="bookingForm" enctype="multipart/form-data">
+                <div class="input-row">
+                    <div class="form-group">
+                        <label><i class="fas fa-user"></i> Full name</label>
+                        <input type="text" id="fullName" placeholder="e.g. Brian Mwangi" required>
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-mobile-alt"></i> Phone number</label>
+                        <input type="tel" id="phone" placeholder="0712 345 678" required>
+                    </div>
+                </div>
+
+                <div class="input-row">
+                    <div class="form-group">
+                        <label><i class="fas fa-cut"></i> Service</label>
+                        <select id="service" required>
+                            <option value="" disabled selected>Select a service</option>
+                            <option value="Signature Fade">Signature Fade · KES 1,200</option>
+                            <option value="Celebrity Cut">Celebrity Cut · KES 1,500</option>
+                            <option value="Beard Sculpt">Beard Sculpt · KES 800</option>
+                            <option value="Kids Cut">Kids Cut · KES 700</option>
+                            <option value="VIP Full Service">VIP Full Service · KES 2,500</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-user-tie"></i> Barber</label>
+                        <select id="barber" required>
+                            <option value="" disabled selected>Choose barber</option>
+                            <option value="Kay (Master Barber)">Kay (Master Barber)</option>
+                            <option value="Dylan">Dylan</option>
+                            <option value="Sam">Sam</option>
+                            <option value="Any available">Any available</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="input-row">
+                    <div class="form-group">
+                        <label><i class="far fa-calendar"></i> Date</label>
+                        <input type="date" id="date" required>
+                    </div>
+                    <div class="form-group">
+                        <label><i class="far fa-clock"></i> Time</label>
+                        <input type="time" id="time" required>
+                    </div>
+                </div>
+
+                <!-- M-Pesa optional payment section (Send Money, no Paybill) -->
+                <div class="payment-section">
+                    <div class="payment-toggle" id="paymentToggle">
+                        <div class="toggle-label">
+                            <i class="fas fa-mobile-alt"></i>
+                            <div>
+                                Pay via M-Pesa (optional)
+                                <small>Send money to +254 742 690064 and upload proof</small>
+                            </div>
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox" id="mpesaToggle">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+
+                    <div class="mpesa-details" id="mpesaDetails">
+                        <div class="mpesa-instructions">
+                            <i class="fas fa-info-circle" style="color: #4caf50; margin-right: 6px;"></i>
+                            <strong>Pay via M-Pesa Send Money</strong> to secure your booking.
+                            <div class="send-money-row">
+                                <span>Send to:</span>
+                                <span class="phone-number-pill">+254 742 690064</span>
+                                <span>Name:</span>
+                                <span class="name-pill">KAY CELEBRITY</span>
+                            </div>
+                            <div style="margin-top: 8px; font-size: 0.8rem; color: #77736e;">
+                                Amount: based on service selected. Then upload your payment screenshot below.
+                            </div>
+                        </div>
+
+                        <label class="upload-label" for="proofUpload">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <span id="uploadText">Upload proof of payment (screenshot)</span>
+                            <span class="file-name" id="fileName"></span>
+                        </label>
+                        <input type="file" id="proofUpload" accept="image/*,application/pdf">
+                        <div style="font-size: 0.75rem; color: #99948c;">
+                            <i class="fas fa-shield-alt"></i> Optional – you can also pay at the shop.
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-book">
+                    <i class="fas fa-calendar-check"></i> Confirm appointment
+                </button>
+            </form>
+
+            <!-- toast message (simulated) -->
+            <div class="toast-message" id="toast">
+                <i class="fas fa-check-circle"></i>
+                <span id="toastText">Appointment request sent! We'll confirm via SMS.</span>
+            </div>
+
+            <div class="booking-footer">
+                <i class="fas fa-shield-alt"></i> 
+                <span>Or call us directly: <a href="tel:+254742690064">+254 742 690064</a></span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        (function() {
+            const form = document.getElementById('bookingForm');
+            const toast = document.getElementById('toast');
+            const toastText = document.getElementById('toastText');
+            const phoneDisplay = document.querySelector('.phone-block a');
+
+            // Payment toggle & file upload elements
+            const mpesaToggle = document.getElementById('mpesaToggle');
+            const mpesaDetails = document.getElementById('mpesaDetails');
+            const proofUpload = document.getElementById('proofUpload');
+            const fileName = document.getElementById('fileName');
+            const uploadText = document.getElementById('uploadText');
+
+            // Set the date input's min to today
+            const dateInput = document.getElementById('date');
+            const today = new Date().toISOString().split('T')[0];
+            dateInput.min = today;
+            dateInput.value = today;
+
+            // Toggle M-Pesa details section
+            mpesaToggle.addEventListener('change', function() {
+                if (this.checked) {
+                    mpesaDetails.classList.add('show');
+                } else {
+                    mpesaDetails.classList.remove('show');
+                }
+            });
+
+            // File upload display
+            proofUpload.addEventListener('change', function() {
+                if (this.files && this.files.length > 0) {
+                    const file = this.files[0];
+                    const name = file.name;
+                    const displayName = name.length > 20 ? name.substring(0, 17) + '...' : name;
+                    fileName.textContent = displayName;
+                    uploadText.textContent = 'Proof attached';
+                } else {
+                    fileName.textContent = '';
+                    uploadText.textContent = 'Upload proof of payment (screenshot)';
+                }
+            });
+
+            // Form submission handler
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+
+                // Basic validation
+                const fullName = document.getElementById('fullName').value.trim();
+                const phone = document.getElementById('phone').value.trim();
+                const service = document.getElementById('service').value;
+                const barber = document.getElementById('barber').value;
+                const date = document.getElementById('date').value;
+                const time = document.getElementById('time').value;
+
+                if (!fullName || !phone || !service || !barber || !date || !time) {
+                    alert('Please fill in all required fields before booking.');
+                    return;
+                }
+
+                if (phone.length < 10) {
+                    alert('Please enter a valid phone number (at least 10 digits).');
+                    return;
+                }
+
+                // Check M-Pesa payment status
+                const paymentEnabled = mpesaToggle.checked;
+                const hasProof = proofUpload.files.length > 0;
+                let paymentNote = '';
+
+                if (paymentEnabled) {
+                    if (hasProof) {
+                        paymentNote = ' ✅ Proof of payment attached.';
+                    } else {
+                        paymentNote = ' ⏳ Payment selected but no proof uploaded (you can pay at the shop).';
+                    }
+                }
+
+                // Format date/time for toast
+                const dateObj = new Date(date + 'T' + time);
+                const options = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' };
+                const formattedDate = dateObj.toLocaleDateString('en-KE', options);
+                const formattedTime = dateObj.toLocaleTimeString('en-KE', { hour: '2-digit', minute: '2-digit' });
+
+                // Show success toast
+                toastText.innerHTML = `✅ <strong>${fullName}</strong>, your ${service} with ${barber} is requested for <strong>${formattedDate} at ${formattedTime}</strong>. We'll SMS you at ${phone}.${paymentNote}`;
+                toast.classList.add('show');
+
+                // Hide toast after 8 seconds
+                setTimeout(() => {
+                    toast.classList.remove('show');
+                }, 8000);
+
+                // Reset form
+                form.reset();
+                dateInput.value = today;
+                fileName.textContent = '';
+                uploadText.textContent = 'Upload proof of payment (screenshot)';
+                mpesaDetails.classList.remove('show');
+            });
+
+            // Phone highlight effect
+            phoneDisplay.addEventListener('click', function(e) {
+                this.style.color = '#d4af37';
+                setTimeout(() => {
+                    this.style.color = '';
+                }, 300);
+            });
+
+            // Ensure date min is set on load
+            dateInput.min = today;
+        })();
+    </script>
+</body>
+</html>
